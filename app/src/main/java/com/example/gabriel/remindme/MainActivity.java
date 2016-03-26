@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         final TimeAdapter timeAdapter = new TimeAdapter(this);
         timeList.setAdapter(timeAdapter);
+        timeAdapter.refreshTimes();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
