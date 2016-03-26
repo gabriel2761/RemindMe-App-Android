@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         timeList.setHasFixedSize(true);
         timeList.setLayoutManager(new LinearLayoutManager(this));
 
-        final TimeAdapter timeAdapter = new TimeAdapter();
+        final TimeAdapter timeAdapter = new TimeAdapter(this);
         timeList.setAdapter(timeAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TimesetDialog dialog = new TimesetDialog();
-                dialog.show(getSupportFragmentManager(), "Whats this?");
+                dialog.timeAdapter = timeAdapter;
+                dialog.show(getSupportFragmentManager(), Constant.TIMEDIALOG);
             }
         });
     }

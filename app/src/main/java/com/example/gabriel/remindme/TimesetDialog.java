@@ -15,10 +15,9 @@ import com.example.gabriel.remindme.model.TimeDbHelper;
 
 import java.util.Calendar;
 
-/**
- * Created by gab on 26/03/2016.
- */
 public class TimesetDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+    public TimeAdapter timeAdapter;
 
     @NonNull
     @Override
@@ -35,5 +34,8 @@ public class TimesetDialog extends DialogFragment implements TimePickerDialog.On
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TimeDbHelper dbHelper = new TimeDbHelper(getContext());
         dbHelper.addTimeEntry(hourOfDay, minute);
+        Toast.makeText(getContext(), "This happened", Toast.LENGTH_SHORT).show();
+        if (timeAdapter != null) timeAdapter.refreshTimes();
     }
+
 }
