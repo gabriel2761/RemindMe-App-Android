@@ -38,14 +38,9 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
         return mData.size();
     }
 
-    public void addTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String currentTime = sdf.format(Calendar.getInstance().getTime());
+    public void addTime(int hourOfDay, int minute) {
 
-        final int hours = 2;
-        final int minutes = 20;
-
-        mData.add(String.valueOf(currentTime));
+        mData.add(String.format("%s %s", hourOfDay, minute));
 
         notifyDataSetChanged();
     }

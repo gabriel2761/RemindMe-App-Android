@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeAdapter.addTime();
+                TimesetDialog dialog = new TimesetDialog();
+                dialog.show(getSupportFragmentManager(), "Whats this?");
             }
         });
     }
