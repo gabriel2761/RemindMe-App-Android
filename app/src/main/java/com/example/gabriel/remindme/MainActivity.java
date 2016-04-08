@@ -11,7 +11,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.gabriel.remindme.model.TimeDbHelper;
+
+public class MainActivity extends AppCompatActivity
+        implements TimesetDialog.OnTimeSelectedListener {
+
+    final TimeAdapter timeAdapter = new TimeAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         timeList.setHasFixedSize(true);
         timeList.setLayoutManager(new LinearLayoutManager(this));
 
-        final TimeAdapter timeAdapter = new TimeAdapter(this);
         timeList.setAdapter(timeAdapter);
         timeAdapter.refreshTimes();
 
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TimesetDialog dialog = new TimesetDialog();
-                dialog.timeAdapter = timeAdapter;
                 dialog.show(getSupportFragmentManager(), Constant.TIMEDIALOG);
             }
         });
@@ -59,5 +62,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void OnTimeSelected(int hourOfDay, int minute) {
+        TimeDbHelper dbHelper = new TimeDbHelper(this);
+        dbHelper.addTimeEntry(hourOfDay, minute);
+        timeAdapter.refreshTimes();
     }
 }

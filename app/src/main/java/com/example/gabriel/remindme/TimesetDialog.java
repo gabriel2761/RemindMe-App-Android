@@ -1,5 +1,6 @@
 package com.example.gabriel.remindme;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -17,7 +18,19 @@ import java.util.Calendar;
 
 public class TimesetDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-    public TimeAdapter timeAdapter;
+    private OnTimeSelectedListener mCallback;
+
+    public interface OnTimeSelectedListener {
+        public void OnTimeSelected(int hourOfDay, int minute);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity != null) {
+            mCallback = (OnTimeSelectedListener) activity;
+        }
+    }
 
     @NonNull
     @Override
@@ -32,10 +45,9 @@ public class TimesetDialog extends DialogFragment implements TimePickerDialog.On
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TimeDbHelper dbHelper = new TimeDbHelper(getContext());
-        dbHelper.addTimeEntry(hourOfDay, minute);
-        Toast.makeText(getContext(), "This happened", Toast.LENGTH_SHORT).show();
-        if (timeAdapter != null) timeAdapter.refreshTimes();
+        mCallback.OnTimeSelected(hourOfDay, minute);
     }
+
+
 
 }
