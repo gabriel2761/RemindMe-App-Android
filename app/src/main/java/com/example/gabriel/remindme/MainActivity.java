@@ -2,7 +2,6 @@ package com.example.gabriel.remindme;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +10,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.gabriel.remindme.dialogs.TimesetDialog;
 import com.example.gabriel.remindme.model.TimeDbHelper;
 
 public class MainActivity extends AppCompatActivity
         implements TimesetDialog.OnTimeSelectedListener {
 
-    final TimeAdapter timeAdapter = new TimeAdapter(this);
+    final TimeAdapter timeAdapter = new TimeAdapter(this, getSupportFragmentManager());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 TimesetDialog dialog = new TimesetDialog();
-                dialog.show(getSupportFragmentManager(), Constant.TIMEDIALOG);
+                dialog.show(getSupportFragmentManager(), Constant.TIME_DIALOG);
             }
         });
     }

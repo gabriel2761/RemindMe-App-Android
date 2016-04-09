@@ -1,4 +1,4 @@
-package com.example.gabriel.remindme;
+package com.example.gabriel.remindme.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -21,7 +21,7 @@ public class TimesetDialog extends DialogFragment implements TimePickerDialog.On
     private OnTimeSelectedListener mCallback;
 
     public interface OnTimeSelectedListener {
-        public void OnTimeSelected(int hourOfDay, int minute);
+        void OnTimeSelected(int hourOfDay, int minute);
     }
 
     @Override
