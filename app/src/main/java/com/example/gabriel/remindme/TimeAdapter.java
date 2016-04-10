@@ -1,6 +1,7 @@
 package com.example.gabriel.remindme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,8 +36,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            TimeEditDialog dialog = new TimeEditDialog();
-            dialog.show(mSupportFragmentManager, Constant.EDIT_DIALOG);
+            Intent intent = new Intent(mContext, EditActivity.class);
+            mContext.startActivity(intent);
         }
     }
 
