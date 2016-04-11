@@ -21,7 +21,9 @@
         <activity
             android:name=".EditActivity"
             android:label="@string/title_activity_edit__reminder_"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
