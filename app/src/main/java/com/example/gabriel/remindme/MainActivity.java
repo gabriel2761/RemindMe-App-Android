@@ -16,7 +16,7 @@ import com.example.gabriel.remindme.model.TimeDbHelper;
 public class MainActivity extends AppCompatActivity
         implements TimesetDialog.OnTimeSelectedListener {
 
-    final TimeAdapter timeAdapter = new TimeAdapter(this, getSupportFragmentManager());
+    private final TimeAdapter timeAdapter = new TimeAdapter(this, getSupportFragmentManager());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
