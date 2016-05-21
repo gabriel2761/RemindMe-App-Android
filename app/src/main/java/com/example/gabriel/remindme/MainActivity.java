@@ -1,5 +1,6 @@
 package com.example.gabriel.remindme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.gabriel.remindme.dialogs.TimesetDialog;
 import com.example.gabriel.remindme.model.TimeDbHelper;
@@ -16,7 +18,7 @@ import com.example.gabriel.remindme.model.TimeDbHelper;
 public class MainActivity extends AppCompatActivity
         implements TimesetDialog.OnTimeSelectedListener {
 
-    private final TimeAdapter timeAdapter = new TimeAdapter(this, getSupportFragmentManager());
+    private final TimeAdapter mTimeAdapter = new TimeAdapter(this, getSupportFragmentManager());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity
         timeList.setHasFixedSize(true);
         timeList.setLayoutManager(new LinearLayoutManager(this));
 
-        timeList.setAdapter(timeAdapter);
-        timeAdapter.refreshTimes();
+        timeList.setAdapter(mTimeAdapter);
+        mTimeAdapter.refreshTimes();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,14 @@ public class MainActivity extends AppCompatActivity
     public void OnTimeSelected(int hourOfDay, int minute) {
         TimeDbHelper dbHelper = new TimeDbHelper(this);
         dbHelper.addTimeEntry(hourOfDay, minute);
-        timeAdapter.refreshTimes();
+        mTimeAdapter.refreshTimes();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == mTimeAdapter.getRequestActivityResult()) {
+            mTimeAdapter.refreshTimes();
+        }
     }
 }

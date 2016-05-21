@@ -6,6 +6,5 @@ public final class Constant {
     private Constant() {}
 
     public static final String TIME_DIALOG = "timedialogbundletosettimewith";
-    public static final String EDIT_DIALOG = "fnekfjb9uwbwfewbMnsbkejh37u4ke";
-
+    public static final String EDIT_ACTIVITY_TIME_PARCELABLE = "fnekfjb9uwbwfewbMnsbkejh37u4ke";
 }

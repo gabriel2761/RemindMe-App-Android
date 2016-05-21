@@ -1,5 +1,7 @@
 package com.example.gabriel.remindme;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.gabriel.remindme.model.Time;
+import com.example.gabriel.remindme.model.TimeDbHelper;
+
 public class EditActivity extends AppCompatActivity {
+
+    private Time mTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,8 @@ public class EditActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        mTime = getIntent().getParcelableExtra(Constant.EDIT_ACTIVITY_TIME_PARCELABLE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +59,19 @@ public class EditActivity extends AppCompatActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.edit_menu_trash:
+                deleteTimeEntry();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteTimeEntry() {
+        TimeDbHelper timeDbHelper = new TimeDbHelper(getBaseContext());
+        timeDbHelper.deleteTimeEntry(mTime.getId());
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
+        finish();
     }
 }

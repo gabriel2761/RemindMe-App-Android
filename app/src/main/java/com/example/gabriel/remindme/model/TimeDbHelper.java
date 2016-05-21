@@ -36,7 +36,7 @@ public class TimeDbHelper extends SQLiteOpenHelper {
                 DatabaseContract.TimeTable.TABLE_NAME, null, values);
     }
 
-    public ArrayList<String> getTimeEntries() {
+    public ArrayList<Time> getTimeEntries() {
         SQLiteDatabase db = getReadableDatabase();
 
         String[] projection = {
@@ -55,18 +55,26 @@ public class TimeDbHelper extends SQLiteOpenHelper {
                 null
         );
 
-        ArrayList<String> values = new ArrayList<>();
+        ArrayList<Time> values = new ArrayList<>();
 
         if (c.moveToFirst()) {
             do {
+                int id = c.getColumnIndex(DatabaseContract.TimeTable._ID);
                 int hours = c.getColumnIndex(DatabaseContract.TimeTable.HOURS);
                 int minutes = c.getColumnIndex(DatabaseContract.TimeTable.MINUTES);
-                values.add(String.format("%s %s",  c.getInt(hours), c.getInt(minutes)));
+                values.add(new Time(c.getInt(id), c.getInt(hours), c.getInt(minutes)));
+
             } while (c.moveToNext());
         }
 
         c.close();
 
         return values;
+    }
+
+    public void deleteTimeEntry(int id) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        sqLiteDatabase.delete(DatabaseContract.TimeTable.TABLE_NAME,
+                DatabaseContract.TimeTable._ID + "=" + id, null);
     }
 }

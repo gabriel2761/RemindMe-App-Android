@@ -1,5 +1,6 @@
 package com.example.gabriel.remindme;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.gabriel.remindme.dialogs.TimeEditDialog;
+import com.example.gabriel.remindme.model.Time;
 import com.example.gabriel.remindme.model.TimeDbHelper;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
 
     private final Context mContext;
     private final FragmentManager mSupportFragmentManager;
-    private final ArrayList<String> mData = new ArrayList<>();
+    private final ArrayList<Time> mData = new ArrayList<>();
+    private final int REQUEST_EDIT_ACTIVITY = 1;
 
     public TimeAdapter(Context context, FragmentManager supportFragmentManager) {
         this.mContext = context;
@@ -37,7 +39,10 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, EditActivity.class);
-            mContext.startActivity(intent);
+            intent.putExtra(Constant.EDIT_ACTIVITY_TIME_PARCELABLE,
+                    mData.get(getAdapterPosition()));
+            Activity activity = (Activity) mContext;
+            activity.startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
         }
     }
 
@@ -50,16 +55,13 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mData.get(position));
+        String time = mData.get(position).getHours() + " " + mData.get(position).getMinutes();
+        holder.mTextView.setText(time);
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
-    }
-
-    public void addTime(int hourOfDay, int minute) {
-        mData.add(String.format("%s %s", hourOfDay, minute));
     }
 
     public void refreshTimes() {
@@ -69,4 +71,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public int getRequestActivityResult() {
+        return REQUEST_EDIT_ACTIVITY;
+    }
 }
